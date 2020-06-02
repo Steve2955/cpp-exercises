@@ -1,0 +1,56 @@
+#include "rect.h"
+#include "lib/sdlinterf.h"
+
+void Rect::setPos(int x, int y) {
+	undraw();
+	mX = x;
+	mY = y;
+	draw();
+}
+
+void Rect::setSize(int w, int h) {
+	undraw();
+	mW = w;
+	mH = h;
+	draw();
+}
+
+void Rect::scale(int percentX, int percentY) {
+	undraw();
+	mW = (mW * percentX) / 100;
+	mH = (mH * percentY) / 100;
+	draw();
+}
+
+bool Rect::fly(bool bounce) {
+	bool ret = true;
+
+	if (((mSX > 0) && (mX >= SDL_X_SIZE - mSX - mW)) ||
+		((mSX < 0) && (mX < -mSX + mW))) {
+		if (!bounce) return false;
+
+		mSX = -mSX;
+		ret = false;
+	}
+	if (((mSY > 0) && (mY >= SDL_Y_SIZE - mSY - mH)) ||
+		((mSY < 0) && (mY < -mSY + mH))) {
+		if (!bounce) return false;
+
+		mSY = -mSY;
+		ret = false;
+	}
+
+	undraw();
+	mX += mSX;
+	mY += mSY;
+	draw();
+	return ret;
+}
+
+void Rect::draw() {
+	sdlDrawRect(mX, mY, mW, mH, mRGB.getR(), mRGB.getG(), mRGB.getB());
+}
+
+void Rect::undraw() const {
+	sdlDrawRect(mX, mY, mW, mH, 0, 0, 0);
+}
