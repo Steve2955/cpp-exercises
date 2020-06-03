@@ -3,7 +3,7 @@ project(SDL_OOP)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(SDL_OOP main.cpp ./lib/sdlinterf.c rect.cpp rect.h color.h)
+add_executable(SDL_OOP main.cpp ./lib/sdlinterf.c rect.cpp rect.h circ.cpp circ.h color.h drawable.h drawable.cpp)
 
 set(SDL2_DIR C:/dev/SDL2)
 set(SDL2_LIB_DIR ${SDL2_DIR}/lib)

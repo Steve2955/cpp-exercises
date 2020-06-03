@@ -1,31 +1,26 @@
-#ifndef SDL_OOP_RECT_H
-#define SDL_OOP_RECT_H
+#ifndef SDL_OOP_DRAWABLE_H
+#define SDL_OOP_DRAWABLE_H
 
 #include "color.h"
 
-class Rect {
+class Drawable {
+
 public:
-	Rect(const Color &color, int x, int y, int w, int h,
+
+	Drawable(const Color &color, int x, int y, int w, int h,
 		 int sx = 0, int sy = 0) : mRGB(color), mX(x), mY(y), mW(w), mH(h), mSX(sx), mSY(sy) {
-		draw();
 	}
 
-	Rect(const Rect &orig);
+	virtual ~Drawable() { }
 
-	~Rect() { undraw(); }
+	virtual Drawable *clone() const = 0;
 
 	Color getColor() const { return mRGB; }
-
 	int getX() const { return mX; }
-
 	int getY() const { return mY; }
-
 	int getW() const { return mW; }
-
 	int getH() const { return mH; }
-
 	int getSX() const { return mSX; }
-
 	int getSY() const { return mSY; }
 
 	void setColor(const Color &color) {
@@ -46,18 +41,14 @@ public:
 
 	void scale(int percentX, int percentY);
 
-	void moveOnTop(Rect &rect);
+	virtual void draw() = 0;
+	virtual void undraw() = 0;
 
-	void draw();
-
-	void undraw() const;
-
-private:
+protected:
 	Color mRGB;
 	int mX, mY;
 	int mW, mH;
 	int mSX, mSY;
 };
 
-
-#endif
+#endif //SDL_OOP_DRAWABLE_H

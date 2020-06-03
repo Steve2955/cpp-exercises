@@ -1,6 +1,15 @@
 #include "rect.h"
 #include "lib/sdlinterf.h"
 
+Rect::Rect(const Rect &orig) : mRGB(orig.mRGB.getR() > 12 ? orig.mRGB.getR() - 2 : 10,
+									orig.mRGB.getG() > 12 ? orig.mRGB.getG() - 2 : 10,
+									orig.mRGB.getB() > 12 ? orig.mRGB.getB() - 2 : 10),
+							   mX(orig.mX), mY(orig.mY),
+							   mW(orig.mW > 1 ? orig.mW - 1 : 1), mH(orig.mH > 1 ? orig.mH - 1 : 1),
+							   mSX(orig.mSX), mSY(orig.mSY) {
+	draw();
+}
+
 void Rect::setPos(int x, int y) {
 	undraw();
 	mX = x;
@@ -45,6 +54,13 @@ bool Rect::fly(bool bounce) {
 	mY += mSY;
 	draw();
 	return ret;
+}
+
+void Rect::moveOnTop(Rect &rect) {
+	undraw();
+	mX = rect.mX;
+	mY = rect.mY;
+	draw();
 }
 
 void Rect::draw() {
